@@ -1,10 +1,15 @@
 import React, {useState, useEffect} from 'react';
 import '../styles/credits.css';
 
-function Credits() {
+
+
+
+function Credits(props) {
     const [error, setError] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
     const [items, setItems] = useState([]);
+    const [description, setCreditInfo] = useState('');
+    const [amount, setCreditAmount] = useState('');
 
     // Note: the empty deps array [] means
     // this useEffect will run once
@@ -25,9 +30,16 @@ function Credits() {
             )
     }, []);
 
-    const handleSubmit = (e) => {
+    const addItem = (e) => {
         e.preventDefault();
-        console.log(items);
+        const newItem = {description, amount}
+        setItems([ ... items, {
+            id: items.length,
+            description: description,
+            amount: amount,
+            date: new Date().toLocaleString
+        }])
+        console.log(newItem)
     }
 
     if (error) {
@@ -38,18 +50,24 @@ function Credits() {
         return (
             <div>
                 <h1 className='title'>Credits</h1>
+                <h3>Account Balance: {props.accountBalance}</h3>
                 <div>
                     <form>
                         <input
                             type='text'
                             name='description'
-                            placeholder='Enter description of credit'           
+                            value={description}
+                            placeholder='Enter description of credit'
+                            onChange={(e) => setCreditInfo(e.target.value)}
                         />
                         <input
                             type='number'
                             name='amount'
+                            value={amount}
+                            placeholder='Enter amount' 
+                            onChange={(e) => setCreditAmount(e.target.value)}
                         />
-                        <button type='submit' onSubmit={handleSubmit}>Add Credit</button>
+                        <button onClick={addItem}>Add Credit</button>
                     </form>
                 </div>
                 <ul className='list-container'>
@@ -61,6 +79,7 @@ function Credits() {
                         </li>
                     ))}
                 </ul>
+                {console.log(items)}
             </div>
         );
     }

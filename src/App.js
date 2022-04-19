@@ -11,6 +11,8 @@ class App extends Component {
     super();
     this.state = {
       accountBalance: 0,
+      credit: [],
+      creditAmount: 0,
       currentUser: {
         userName: "Joe Smith",
         memberSince: "07/23/96",
@@ -25,7 +27,12 @@ class App extends Component {
   }
 
   render() {
-    const HomeComponent = () => (<Home accountBalance={this.state.accountBalance}/>);
+    const HomeComponent = () => (
+    <Home 
+      accountBalance={this.state.accountBalance}
+      credit={this.state.credit}
+    />);
+
     const UserProfileComponent = () => (
       <UserProfile 
         userName={this.state.currentUser.userName}
@@ -41,10 +48,12 @@ class App extends Component {
 
     const CreditsComponent = () => (
       <Credits
+        accountBalance={this.state.accountBalance}
       />)
 
     const DebitsComponent = () => (
       <Debits
+        accountBalance={this.state.accountBalance}
       />)
     
     return (

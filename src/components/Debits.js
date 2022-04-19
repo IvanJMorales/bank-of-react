@@ -1,16 +1,21 @@
 import React, {useState, useEffect} from 'react';
 import '../styles/debits.css';
 
-function Credits() {
+
+
+
+function Debits(props) {
     const [error, setError] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
     const [items, setItems] = useState([]);
+    const [description, setDebitInfo] = useState('');
+    const [amount, setDebitAmount] = useState('');
 
     // Note: the empty deps array [] means
     // this useEffect will run once
     // similar to componentDidMount()
     useEffect(() => {
-        fetch("https://moj-api.herokuapp.com/debits") // Fetch API
+        fetch("https://moj-api.herokuapp.com/credits") // Fetch API
             .then(res => res.json())
             .then(
                 (result) => {
@@ -25,9 +30,16 @@ function Credits() {
             )
     }, []);
 
-    const handleSubmit = (e) => {
+    const addItem = (e) => {
         e.preventDefault();
-        console.log(items);
+        const newItem = {description, amount}
+        setItems([ ... items, {
+            id: items.length,
+            description: description,
+            amount: amount,
+            date: new Date().toLocaleString
+        }])
+        console.log(newItem)
     }
 
     if (error) {
@@ -38,18 +50,24 @@ function Credits() {
         return (
             <div>
                 <h1 className='title'>Debits</h1>
+                <h3>Account Balance: {props.accountBalance}</h3>
                 <div>
                     <form>
                         <input
                             type='text'
                             name='description'
-                            placeholder='Enter description of debit'           
+                            value={description}
+                            placeholder='Enter description of debit'
+                            onChange={(e) => setDebitInfo(e.target.value)}
                         />
                         <input
                             type='number'
                             name='amount'
+                            value={amount}
+                            placeholder='Enter amount' 
+                            onChange={(e) => setDebitAmount(e.target.value)}
                         />
-                        <button type='submit' onSubmit={handleSubmit}>Add Debit</button>
+                        <button onClick={addItem}>Add Debit</button>
                     </form>
                 </div>
                 <ul className='list-container'>
@@ -61,9 +79,10 @@ function Credits() {
                         </li>
                     ))}
                 </ul>
+                {console.log(items)}
             </div>
         );
     }
 }
 
-export default Credits
+export default Debits
