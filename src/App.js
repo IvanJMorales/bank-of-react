@@ -4,6 +4,7 @@ import Home from './components/Home';
 import UserProfile from './components/UserProfile';
 import LogIn from './components/Login';
 import Credits from './components/Credits';
+import Debits from './components/Debits';
 
 class App extends Component {
   constructor() {
@@ -41,6 +42,10 @@ class App extends Component {
     const CreditsComponent = () => (
       <Credits
       />)
+
+    const DebitsComponent = () => (
+      <Debits
+      />)
     
     return (
       <Router>
@@ -49,6 +54,7 @@ class App extends Component {
           <Route exact path="/userProfile" render={UserProfileComponent}/>
           <Route exact path="/login" render={LogInComponent}/>
           <Route exact path="/credits" render={CreditsComponent}/>
+          <Route exact path="/debits" render={DebitsComponent}/>
         </div>
       </Router>
     );
