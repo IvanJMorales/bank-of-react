@@ -10,11 +10,6 @@ class App extends Component {
     super();
     this.state = {
       accountBalance: 0,
-      currentCredit: {
-        creditName: ["Credit1" , " Credit2"],
-        creditAmount: 0,
-        creditDate: "01/01/2000"
-      },
       currentUser: {
         userName: "Joe Smith",
         memberSince: "07/23/96",
@@ -28,12 +23,6 @@ class App extends Component {
     this.setState({currentUser: newUser})
   }
 
-  mockAddCredit = (newCredit) => {
-    const newCreditCard = {...this.state.currentCredit}
-    newCredit.creditName = newCredit.creditName
-    this.setState({currentCredit: newCreditCard})
-  }
-
   render() {
     const HomeComponent = () => (<Home accountBalance={this.state.accountBalance}/>);
     const UserProfileComponent = () => (
@@ -43,11 +32,14 @@ class App extends Component {
       />
     );
 
-    const LogInComponent = () => (<LogIn user={this.state.currentUser} mockLogIn={this.mockLogIn} />)
-    const CreditsComponent = () =>(
+    const LogInComponent = () => (
+      <LogIn 
+        user={this.state.currentUser} 
+        mockLogIn={this.mockLogIn} 
+      />)
+
+    const CreditsComponent = () => (
       <Credits
-        creditInfo={this.state.creditInfo}
-        creditAmount={this.state.creditAmount}
       />)
     
     return (

@@ -1,45 +1,68 @@
-import React, {Component} from 'react';
+import React, {useState, useEffect} from 'react';
+import '../styles/credits.css';
 
-class Credits extends Component {
-    constructor() {
-        super()
-        this.state = {
-            credit: {
-                creditName: "",
-                creditAmount: ""
-            }
-        }
+function Credits() {
+    const [error, setError] = useState(null);
+    const [isLoaded, setIsLoaded] = useState(false);
+    const [items, setItems] = useState([]);
+
+    // Note: the empty deps array [] means
+    // this useEffect will run once
+    // similar to componentDidMount()
+    useEffect(() => {
+        fetch("https://moj-api.herokuapp.com/credits") // Fetch API
+            .then(res => res.json())
+            .then(
+                (result) => {
+                    setIsLoaded(true); // Set isLoaded state to true
+                    setItems(result); // Set items to results from API
+                },
+                // Handle errors
+                (error) => {
+                    setIsLoaded(true);
+                    setError(error);
+                }
+            )
+    }, []);
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        console.log(items);
     }
-    
-    // When the credit name input is changed, capture the input and update the state (credit.creditName)
-    handleChange = (e) => {
-        const updatedCredit = {...this.state.credit}
-        const inputField = e.target.name
-        const inputValue = e.target.value
-        updatedCredit[inputField] = inputValue
 
-        this.setState({credit: updatedCredit})
-    }
-
-    handleSubmit = (e) => {
-        e.preventDefault()
-        this.props.mockAddCredit(this.state.credit)
-
-    }
-    render() {
+    if (error) {
+        return <div>Error: {error.message}</div>;
+    } else if (!isLoaded) {
+        return <div>Loading...</div>;
+    } else {
         return (
             <div>
-                <h1>Credits</h1>
+                <h1 className='title'>Credits</h1>
                 <div>
-                    <button>Add Credit</button>
+                    <form>
+                        <input
+                            type='text'
+                            name='description'
+                            placeholder='Enter description of credit'           
+                        />
+                        <input
+                            type='number'
+                            name='amount'
+                        />
+                        <button type='submit' onSubmit={handleSubmit}>Add Credit</button>
+                    </form>
                 </div>
-                <h2>Credit Info: {this.props.creditInfo}</h2>
-                <h2>Credit Amount: {this.props.creditAmount}</h2>
-                <div>
-                    <form onSubmit={this.handleSubmit}></form>
-                </div>
+                <ul className='list-container'>
+                    {items.map(item => (
+                        <li key={item.id}>
+                            <h3>Description: </h3> {item.description}
+                            <h3>Amount: </h3> {item.amount}
+                            <h3>Date: </h3> {item.date}
+                        </li>
+                    ))}
+                </ul>
             </div>
-        )
+        );
     }
 }
 
