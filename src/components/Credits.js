@@ -32,14 +32,12 @@ function Credits(props) {
 
     const addItem = (e) => {
         e.preventDefault();
-        const newItem = {description, amount}
         setItems([ ... items, {
             id: items.length,
             description: description,
             amount: amount,
             date: new Date().toLocaleString
         }])
-        console.log(newItem)
     }
 
     if (error) {
