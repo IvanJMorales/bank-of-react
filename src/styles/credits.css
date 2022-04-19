@@ -1,0 +1,29 @@
+.title {
+    text-align: center;
+}
+
+.input-container {
+    display: flex;
+    flex-direction: column;
+    background-color: antiquewhite;
+}
+
+.button {
+    
+}
+
+.list-container {
+    display: flex;
+    flex-direction: column;
+    padding: 50px;
+}
+
+.list-item {
+    background-color: bisque;
+}
+
+ul li, h4 {
+    list-style-type: none;
+    background: #cce5ff;
+    margin: 5px;
+}
