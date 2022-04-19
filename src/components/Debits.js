@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import '../styles/credits.css';
+import '../styles/debits.css';
 
 function Credits() {
     const [error, setError] = useState(null);
